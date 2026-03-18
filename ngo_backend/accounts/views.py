@@ -15,3 +15,17 @@ def user_login(request):
             return render(request, 'accounts/login.html', {'error': 'Invalid credentials'})
 
     return render(request, 'accounts/login.html')
+
+from django.contrib.auth.models import User
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = User.objects.create_user(username=username, password=password)
+        user.save()
+
+        return redirect('/login/')
+
+    return render(request, 'accounts/register.html')
